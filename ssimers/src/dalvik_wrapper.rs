@@ -4,28 +4,21 @@ use jni::{
     JNIEnv,
 };
 
-use crate::{
-    image::Image,
-    logger::{AndroidLogger, Logger},
-    SsimBuilder,
-};
+static SIZE: (usize, usize) = (224, 224);
+
+use crate::{image::Image, SsimBuilder};
 
 #[no_mangle]
 pub extern "C" fn Java_com_whoevencares_ssimand_NativeLib_newSsimBuilder(
-    mut env: JNIEnv,
+    env: JNIEnv,
     _: JClass,
     buf_a: JByteArray,
     buf_b: JByteArray,
 ) -> jfloat {
     let buf_a = env.convert_byte_array(&buf_a).unwrap();
     let buf_b = env.convert_byte_array(&buf_b).unwrap();
-    let img_a = Image::from_buf(&buf_a, 3, 3);
-    let img_b = Image::from_buf(&buf_b, 3, 3);
-    // todo!("implement please...");
-    let mut log = AndroidLogger::new(&mut env, "JNICALL");
-    log.d("test from JNI").unwrap();
+    let img_a = Image::from_buf(&buf_a, SIZE.0, SIZE.1);
+    let img_b = Image::from_buf(&buf_b, SIZE.0, SIZE.1);
     let ssim = SsimBuilder::new(&img_a);
     ssim.compare(&img_b, crate::SsimMode::Global, None).unwrap() as f32
-    // log.d(len.iter().fold(String::new(), |acc, &num| acc + &num.to_string() + ", ")).unwrap();
-    // 0.0
 }
