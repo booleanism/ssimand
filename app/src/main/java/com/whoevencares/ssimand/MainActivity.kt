@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -64,7 +63,6 @@ class MainActivity : ComponentActivity() {
                             ChooseImage(
                                 modifier = Modifier.fillMaxHeight(.40f),
                             ) {
-                                Log.d("OnCLick", "1")
                                 idx = 0
                                 getBuf()
                             }
@@ -82,7 +80,6 @@ class MainActivity : ComponentActivity() {
                             ChooseImage(
                                 modifier = Modifier.fillMaxHeight(.80f),
                             ) {
-                                Log.d("OnClick", "2")
                                 idx = 1
                                 getBuf()
                             }
@@ -98,14 +95,8 @@ class MainActivity : ComponentActivity() {
                         ) {
                             FilledTonalButton(
                                 onClick = {
-//                                    Log.d("OnClickCompare", buf[0].contentToString())
-//                                    Log.d("OnClickCompare", buf[1].contentToString())
                                     if (buf[0] != null && buf[1] != null) {
                                         ssimResult = NativeLib.newSsimBuilder(buf[0], buf[1])
-                                        Log.d(
-                                            "SSIM",
-                                            ssimResult.toString()
-                                        )
                                         isResult = true
                                     }
 
